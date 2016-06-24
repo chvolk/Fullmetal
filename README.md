@@ -59,6 +59,7 @@ Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux)
 - Add Fullmetal (or your edited version of it) to the "sample" folder in Myo4Linux (or port the files from Myo4Linux to wherever you want and run the code from there)
 - Edit the code to use the proper RSSI values (bluetooth signal strength) for the area you'll be using it in. 
 - Edit the code to properly name and find all of your lights and devices.
+- You need to pair with your bluetooth device BEFORE you run the code
 - python fullmetal.py
 
 
