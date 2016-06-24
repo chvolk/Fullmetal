@@ -34,6 +34,9 @@ Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation 
 - $ sudo apt-get install bluez bluez-firmware
 - $ sudo apt-get install blueman
 - $ sudo apt-get install pip (if not done already)
+- $ sudo pip install -U pip
+- $ sudo pip install pySerial
+- $ sudo pip install enum34
 - $ sudo pip install phue
 - $ sudo pip install lifxlan
 - $ sudo pip install requests
