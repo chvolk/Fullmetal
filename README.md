@@ -4,12 +4,12 @@ Home Automation using Logitech Harmony, Phillips Hue lights, LIFX Lights, and Bl
 
 Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation of this project.
 
-# Pre-requirements for your Myo device
+## Pre-requirements for your Myo device
 - Firmware version 1.3.1448 or higher
-- It is necessary to calibrate your Myo device using the official software.
+- It is necessary to calibrate your Myo device
 - Use the Myo dongle bluetooth
 
-# Requirements
+## Requirements
 - python >=2.6
 - pySerial
 - enum34
@@ -22,7 +22,7 @@ Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation 
 - requests
 
 
-# Install
+## Install
 
 - Open the terminal
 - $ sudo apt-get update
@@ -38,7 +38,7 @@ Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation 
 - $ sudo pip install lifxlan
 - $ sudo pip install requests
 
-# Pair Pi to phone using bluetooth (for distance sensing when you want to control lights in one room, but not another one with the same gestures)
+## Pair Pi to phone using bluetooth (for distance sensing when you want to control lights in one room, but not another one with the same gestures)
 
 - $ sudo bluetoothctl -ahciconfig hci0 sspmode 1^C
 - $ sudo hciconfig hci0 sspmode 1
@@ -50,12 +50,12 @@ Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation 
 - $ sudo rfcomm connect /dev/rfcomm0 DEVICE-MAC-ADDRESS-HERE 1 &
 - $ hcitool rsii DEVICE-MAC-ADDRESS-HERE (to test if it all works. should return something like "RSSI return value: -1")
 
-# Steps:
+## Steps:
 
 - The Myo dongle bluetooth must be connected.
 - Add Fullmetal (or your edited version of it) to the "sample" folder in Myo4Linux (or port the files from Myo4Linux to wherever you want and run the code from there)
--Edit the code to use the proper RSSI values (bluetooth signal strength) for the area you'll be using it in. 
--Edit the code to properly name and find all of your lights and devices 
+- Edit the code to use the proper RSSI values (bluetooth signal strength) for the area you'll be using it in. 
+- Edit the code to properly name and find all of your lights and devices.
 - python fullmetal.py
 
 
