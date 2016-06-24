@@ -16,51 +16,32 @@ from pose_type import PoseType
 import time
 
 fullmetal = None
-num_lights = 2
-lifx = LifxLAN(num_lights)
-devices = lifx.get_lights()
-if 'Bedroom' in str(devices[1]):
-    bedside_table_light = devices[0]
-    bedroom_light = devices[1]
+light_status = None
 
-else:
-    bedside_table_light = devices[1]
-    bedroom_light = devices[0]
 
-original_powers = lifx.get_power_all_lights()
-light_power1 = str(original_powers[0][0])
-light_power2 = str(original_powers[1][0])
-if 'Power: Off' in light_power1 and 'Power: Off' in light_power2:
-    light_status = 'OFF'
-else:
-    light_status = 'ON'
+# IF YOU WANT TO USE ACTIVITIES FROM A HARMONY HUB YOU NEED TO ENTER THE INFO HERE
+harmony_start_url = ""
+harmony_end_url = ""
 
-b = Bridge('192.168.1.115')
-light_names = b.get_light_objects('name')
+#PAYLOAD IS USUALLY EMPTY (LEAVE IT AS "")
+harmony_payload = ""
 
-start_url = "https://home.myharmony.com/cloudapi/hub/8191553/activity/18750134/start"
-end_url = "https://home.myharmony.com/cloudapi/hub/8191553/activity/18750134/end"
-payload = ""
-
-start_headers = {
-    'authorization': "Bearer uJ7gfqjodZfG9A-hVuposA;MeW6q7lPtKJ2VEvo1LVqgn_A01eJx4LwiUJ1gY7Qep0",
-    'cache-control': "no-cache",
-    'postman-token': "5d8cbbee-7803-2034-f490-4cbe00a2e9f1"
+harmony_start_headers = {
+    'authorization': "",
+    'cache-control': "",
+    'postman-token': ""
     }
 
-end_headers = {
-    'authorization': "Bearer uJ7gfqjodZfG9A-hVuposA;MeW6q7lPtKJ2VEvo1LVqgn_A01eJx4LwiUJ1gY7Qep0",
-    'cache-control': "no-cache",
-    'postman-token': "4bfa6299-c26c-0de8-28f1-de46b34ceb48"
+harmony_end_headers = {
+    'authorization': "",
+    'cache-control': "",
+    'postman-token': ""
     }
 
-pdb.set_trace()
-print('Start Myo for Linux')
+print('Starting Fullmetal')
 
 fullmetal = Myo()
 fullmetal.connect()
-start_time = time.time()
-
 
 class PrintPoseListener(DeviceListener):
         def __init__(self):
@@ -179,12 +160,39 @@ class PrintPoseListener(DeviceListener):
                         vibrate('SHORT')
                         print("Locked")
 
+def get_lights():
+    #FOR LIFX LIGHTS
+    num_lights = 2
+    lifx = LifxLAN(num_lights)
+    devices = lifx.get_lights()
+    if 'Bedroom' in str(devices[1]):
+        bedside_table_light = devices[0]
+        bedroom_light = devices[1]
+
+    else:
+        bedside_table_light = devices[1]
+        bedroom_light = devices[0]
+
+    original_powers = lifx.get_power_all_lights()
+    light_power1 = str(original_powers[0][0])
+    light_power2 = str(original_powers[1][0])
+
+    if 'Power: Off' in light_power1 and 'Power: Off' in light_power2:
+        light_status = 'OFF'
+    else:
+        light_status = 'ON'
+
+    #FOR PHILLIPS HUE LIGHTS
+    #FIRST GET THE IP OF THE BRIDGE (use $ arp -a)
+    b = Bridge('IP ADDRESS OF HUE BRIDGE')
+    light_names = b.get_light_objects('name')
+
 
 def harmony_switch(status):
     if status == 'ON':
-        requests.post(start_url, data=payload, headers=start_headers)
+        requests.post(harmony_start_url, data=harmony_payload, headers=harmony_start_headers)
     elif status == 'OFF':
-        requests.post(end_url, data=payload, headers=end_headers)
+        requests.post(harmony_end_url, data=harmony_payload, headers=harmony_end_headers)
 
 def vibrate(vibration_type):
     if vibration_type == 'SHORT':
@@ -195,6 +203,7 @@ def vibrate(vibration_type):
         fullmetal.vibrate(VibrationType.LONG)
 
 def main(): 
+    get_lights()
     try:
         listener = PrintPoseListener()
         fullmetal.add_listener(listener)
