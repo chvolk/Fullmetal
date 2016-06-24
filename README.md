@@ -40,3 +40,16 @@ Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation 
 - The Myo dongle bluetooth must be connected.
 - Add Fullmetal (or your edited version of it) to the "sample" folder in Myo4Linux (or port the files from Myo4Linux to wherever you want and run the code from there)
 - python fullmetal.py
+
+# Pair Pi to phone using bluetooth (for distance sensing when you want to control lights in one room, but not another one with the same gestures)
+
+- $ sudo bluetoothctl -ahciconfig hci0 sspmode 1^C
+- $ sudo hciconfig hci0 sspmode 1
+- $ sudo hciconfig hci0 sspmode
+- $ sudo hciconfig hci0 piscan
+- $ sudo sdptool add SP
+- $ sudo hcitool scan
+- (Find the bluetooth MAC address of the device you want to connect to EX: 70:3O:AC:00:00:70)
+- $ sudo rfcomm connect /dev/rfcomm0 DEVICE-MAC-ADDRESS-HERE 1 &
+- $ hcitool rsii DEVICE-MAC-ADDRESS-HERE (to test if it all works. should return something like "RSSI return value: -1")
+
