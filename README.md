@@ -1,8 +1,8 @@
 # Fullmetal
-Home Automation using Logitech Harmony, Phillips Hue lights, LIFX Lights, and Bluetooth proximity
+Home Automation using Logitech Harmony, Phillips Hue lights, LIFX Lights, and Bluetooth proximity in Python
 
 
-Thanks to Ramir0 (https://github.com/Ramir0/Myo4Linux), which is the foundation of this project.
+Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux), which is the foundation of this project.
 
 ## Pre-requirements for your Myo device
 - Firmware version 1.3.1448 or higher
