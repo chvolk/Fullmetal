@@ -31,14 +31,6 @@ else:
     bedside_table_light = devices[1]
     bedroom_light = devices[0]
 
-original_powers = lifx.get_power_all_lights()
-light_power1 = str(original_powers[0][0])
-light_power2 = str(original_powers[1][0])
-
-if 'Power: Off' in light_power1 and 'Power: Off' in light_power2:
-    light_status = 'OFF'
-else:
-    light_status = 'ON'
 
 #FOR PHILLIPS HUE LIGHTS
 #FIRST GET THE IP OF THE BRIDGE (use $ arp -a)
@@ -78,7 +70,6 @@ class PrintPoseListener(DeviceListener):
                 self.livingroom_locked = True
                 self.active_pose = None
                 self.harmony_lock = True
-                self.light_status = light_status
                 self.current_room = None
                 
         def on_pose(self, pose):
@@ -93,11 +84,11 @@ class PrintPoseListener(DeviceListener):
                     range_gauge.append(output)
                 distance = sum(range_gauge) / float(len(range_gauge))
                 if distance < -1:
-                    self.current_room = 'LIVING':
+                    self.current_room = 'LIVING'
                 else:
                     self.current_room = 'BED'
                 #If in bedroom and want to turn on the lights or projector
-                if self.active_pose == 'WAVE_OUT' and self.bedroom_locked is True and self.current_room == 'BED'::
+                if self.active_pose == 'WAVE_OUT' and self.bedroom_locked is True and self.current_room == 'BED':
                         self.bedroom_locked = False
                         fullmetal.vibrate(VibrationType.SHORT)
                         fullmetal.vibrate(VibrationType.SHORT)
@@ -115,7 +106,7 @@ class PrintPoseListener(DeviceListener):
                         time.sleep(.5)
 
                 #if in bedroom and want to turn on/off the projector 
-                elif self.active_pose == 'DOUBLE_TAP' and self.bedroom_locked is False and self.current_room = 'BED':
+                elif self.active_pose == 'DOUBLE_TAP' and self.bedroom_locked is False and self.current_room == 'BED':
                         if self.harmony_lock is True:
                             self.harmony_lock = False
                             harmony_status = "OFF"
@@ -127,7 +118,7 @@ class PrintPoseListener(DeviceListener):
                         print("Harmony lock is {}".format(harmony_status))
 
                 #Turn on the lights in bedroom
-                elif self.active_pose == 'FINGERS_SPREAD' and self.bedroom_locked is False and self.light_status == 'OFF' and self.harmony_lock is True and self.current_room == 'BED':
+                elif self.active_pose == 'FINGERS_SPREAD' and self.bedroom_locked is False and self.harmony_lock is True and self.current_room == 'BED':
                         fullmetal.vibrate(VibrationType.SHORT)
                         lifx.set_power_all_lights(True)
                         #self.original_powers = lifx.get_power_all_lights()
@@ -138,7 +129,7 @@ class PrintPoseListener(DeviceListener):
                         print("Bedroom lights on")
 
                 #Turn on the living room lights
-                elif self.active_pose == 'FINGERS_SPREAD' and self.livingroom_locked is False and self.light_status == 'OFF' and self.harmony_lock is True and self.current_room == 'LIVING':
+                elif self.active_pose == 'FINGERS_SPREAD' and self.livingroom_locked is False and self.harmony_lock is True and self.current_room == 'LIVING':
                         fullmetal.vibrate(VibrationType.SHORT)
                         light_names['Living room light'].on = True
                         light_names['Kitchen Light'].on = True
@@ -160,7 +151,7 @@ class PrintPoseListener(DeviceListener):
                         print("Projector on")
 
                 #Turn off the bedroom lights
-                elif self.active_pose == 'FIST' and self.bedroom_locked is False and self.light_status == 'ON' and self.harmony_lock is True  and self.current_room == 'BED':
+                elif self.active_pose == 'FIST' and self.bedroom_locked is False and self.harmony_lock is True  and self.current_room == 'BED':
                         fullmetal.vibrate(VibrationType.SHORT)
                         lifx.set_power_all_lights(False)
                         self.bedroom_locked = True
@@ -168,7 +159,7 @@ class PrintPoseListener(DeviceListener):
                         print("Bedroom lights off")
 
                 #Turn off the living room lights        
-                elif self.active_pose == 'FIST' and self.livingroom_locked is False and self.light_status == 'ON' and self.harmony_lock is True and self.current_room == 'LIVING':
+                elif self.active_pose == 'FIST' and self.livingroom_locked is False and self.harmony_lock is True and self.current_room == 'LIVING':
                         fullmetal.vibrate(VibrationType.SHORT)
                         light_names['Living room light'].on = False
                         light_names['Kitchen Light'].on = False
@@ -193,7 +184,7 @@ class PrintPoseListener(DeviceListener):
                         self.bedroom_locked = True
                         self.livingroom_locked = True
                         self.harmony_lock = True
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        time.sleep(1)
                         print("Locked")
 
 
