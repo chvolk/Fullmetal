@@ -1,5 +1,5 @@
 # Fullmetal
-Home Automation using Logitech Harmony, Phillips Hue lights, LIFX Lights, and Bluetooth proximity in Python
+Home Automation using A Raspberry Pi3, Logitech Harmony, Phillips Hue lights, LIFX Lights, and Bluetooth proximity in Python
 
 
 Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux), which is the foundation of this project.
