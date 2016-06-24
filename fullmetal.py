@@ -73,15 +73,6 @@ class PrintPoseListener(DeviceListener):
         def on_pose(self, pose):
                 pose_type = PoseType(pose)
                 self.active_pose = pose_type.name
-                # pose_time = time.time()
-                # rest_time = start_time - pose_time
-                # if rest_time > 30:
-                #     fullmetal.safely_disconnect()
-                #     start_time = time.time()
-                #     main()
-                    
-                # else:
-                #     pass
 
                 print(pose_type.name)
                 # if self.active_pose == 'REST':
@@ -91,8 +82,8 @@ class PrintPoseListener(DeviceListener):
                 #If in bedroom and want to turn on the lights or projector
                 if self.active_pose == 'WAVE_OUT' and self.bedroom_locked is True:
                         self.bedroom_locked = False
-                        fullmetal.vibrate(VibrationType.SHORT)
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
+                        vibrate('SHORT')
                         #myo.vibrate(VibrationType.SHORT)
                         #myo.vibrate(VibrationType.SHORT)
                         print("Bedroom unlocked")
@@ -100,8 +91,8 @@ class PrintPoseListener(DeviceListener):
 
                 #if in living room and want to turn on the lights
                 elif self.active_pose == 'DOUBLE_TAP' and self.livingroom_locked is True and self.bedroom_locked is True:
-                        fullmetal.vibrate(VibrationType.SHORT)
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
+                        vibrate('SHORT')
                         self.livingroom_locked = False
                         print("Living room unlocked")
                         time.sleep(.5)
@@ -111,16 +102,16 @@ class PrintPoseListener(DeviceListener):
                         if self.harmony_lock is True:
                             self.harmony_lock = False
                             harmony_status = "OFF"
-                            fullmetal.vibrate(VibrationType.MEDIUM)
+                            vibrate('MED')
                         elif self.harmony_lock is False:
                             self.harmony_lock = True
                             harmony_status = "ON"
-                            fullmetal.vibrate(VibrationType.SHORT)
+                            vibrate('SHORT')
                         print("Harmony lock is {}".format(harmony_status))
 
                 #Turn on the lights in bedroom
                 elif self.active_pose == 'FINGERS_SPREAD' and self.bedroom_locked is False and self.livingroom_locked is True and self.light_status == 'OFF' and self.harmony_lock is True:
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         lifx.set_power_all_lights(True)
                         #self.original_powers = lifx.get_power_all_lights()
                         #self.original_colors = lifx.get_color_all_lights()
@@ -131,7 +122,7 @@ class PrintPoseListener(DeviceListener):
 
                 #Turn on the living room lights
                 elif self.active_pose == 'FINGERS_SPREAD' and self.bedroom_locked is True and self.livingroom_locked is False and self.light_status == 'OFF' and self.harmony_lock is True:
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         light_names['Living room light'].on = True
                         light_names['Kitchen Light'].on = True
                         light_names['Doorway light'].on = True
@@ -144,16 +135,16 @@ class PrintPoseListener(DeviceListener):
 
                 #Turn on the projector
                 elif self.active_pose == 'FINGERS_SPREAD' and self.bedroom_locked is False and self.livingroom_locked is True and self.harmony_lock is False:
-                        response = requests.post(start_url, data=payload, headers=start_headers)
+                        harmony_switch('ON')
                         print(response)
                         self.harmony_lock = True
                         self.bedroom_locked = True
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         print("Projector on")
 
                 #Turn off the bedroom lights
                 elif self.active_pose == 'FIST' and self.bedroom_locked is False and self.livingroom_locked is True and self.light_status == 'ON' and self.harmony_lock is True:
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         lifx.set_power_all_lights(False)
                         self.bedroom_locked = True
                         self.light_status = 'OFF'
@@ -161,7 +152,7 @@ class PrintPoseListener(DeviceListener):
 
                 #Turn off the living room lights        
                 elif self.active_pose == 'FIST' and self.bedroom_locked is True and self.livingroom_locked is False and self.light_status == 'ON' and self.harmony_lock is True:
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         light_names['Living room light'].on = False
                         light_names['Kitchen Light'].on = False
                         light_names['Doorway light'].on = False
@@ -173,11 +164,11 @@ class PrintPoseListener(DeviceListener):
 
                 #Turn off the projector
                 elif self.active_pose == 'FIST' and self.bedroom_locked is False and self.livingroom_locked is True and self.harmony_lock is False:
-                        response = requests.post(end_url, data=payload, headers=end_headers)
+                        harmony_switch('OFF')
                         print(response)
                         self.harmony_lock = True
                         self.bedroom_locked = True
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         print("Projector off")
 
                 #lock everything
@@ -185,8 +176,23 @@ class PrintPoseListener(DeviceListener):
                         self.bedroom_locked = True
                         self.livingroom_locked = True
                         self.harmony_lock = True
-                        fullmetal.vibrate(VibrationType.SHORT)
+                        vibrate('SHORT')
                         print("Locked")
+
+
+def harmony_switch(status):
+    if status == 'ON':
+        requests.post(start_url, data=payload, headers=start_headers)
+    elif status == 'OFF':
+        requests.post(end_url, data=payload, headers=end_headers)
+
+def vibrate(vibration_type):
+    if vibration_type == 'SHORT':
+        fullmetal.vibrate(VibrationType.SHORT)
+    elif vibration_type == 'MED':
+        fullmetal.vibrate(VibrationType.MEDIUM)
+    elif vibration_type == 'LONG':
+        fullmetal.vibrate(VibrationType.LONG)
 
 def main(): 
     try:
@@ -205,22 +211,7 @@ def main():
         fullmetal.safely_disconnect()
         print('Finished.')
 
-def check_output_status():
-    output = subprocess.Popen( cmd, stdout=subprocess.PIPE ).communicate()[0]
 
-def harmony_switch(status):
-    if status == 'ON':
-        requests.post(start_url, data=payload, headers=start_headers)
-    elif status == 'OFF':
-        requests.post(end_url, data=payload, headers=end_headers)
-
-def vibrate(vibration_type):
-    if vibration_type == 'SHORT':
-        fullmetal.vibrate(VibrationType.SHORT)
-    elif vibration_type == 'MED':
-        fullmetal.vibrate(VibrationType.MEDIUM)
-    elif vibration_type == 'LONG':
-        fullmetal.vibrate(VibrationType.LONG)
 
 
 if __name__ == '__main__':
