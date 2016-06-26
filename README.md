@@ -12,7 +12,7 @@ This program is called Fullmetal because it allows you to control your connected
 ## Pre-requirements for your Myo device
 - Firmware version 1.3.1448 or higher
 - It is necessary to calibrate your Myo device
-- Use the Myo dongle bluetooth
+- Use the Myo bluetooth dongle
 
 ## Requirements
 - a Raspberry Pi 3
