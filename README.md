@@ -62,8 +62,8 @@ This program is called Fullmetal because it allows you to control your connected
 ## Set up Hue Bridge
 - $ python
 - $ from phue import Bridge
-- $ b = Bridge('ip_of_your_bridge')
 - Press the connect button on the Hue bridge
+- $ b = Bridge('ip_of_your_bridge')
 - $ b.connect()
 - $ print b.lights
 - $ This will return the list of lights available. Edit the code where necessary with the proper light names. You only have to do this once. 
