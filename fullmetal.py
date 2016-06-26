@@ -270,6 +270,7 @@ def check_for_idle():
             diff = round(now - then)
             print diff
 
+            #Throws warning, but works fine
             if diff >= 3 and (bedroom_locked is False or livingroom_locked is False or harmony_lock is False):
                 print('Idle Lock')
                 bedroom_locked = True
@@ -278,6 +279,7 @@ def check_for_idle():
                 wemo_lock = True
                 fullmetal.vibrate(VibrationType.SHORT)
 
+            #Buggy and not working yet
             # elif diff >= 100:
             #     print('Idle for too long. Reconnecting')
             #     try:
