@@ -51,7 +51,7 @@ Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux)
 - $ env.start()
 - $ env.discover(20)
 - $ print env.list_switches()
-- This will list the devices. Use the device names listed and add those to the code in the wemo setup section. Edit the code in the Wemo section near the top to have the appropriate device names
+- This will list the devices. Use the device names listed and add those to the code in the wemo setup section. Edit the code in the Wemo section near the top to have the appropriate device names. You only have to do this once.
 
 ## Set up Hue Bridge
 - $ python
@@ -60,7 +60,7 @@ Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux)
 - Press the connect button on the Hue bridge
 - $ b.connect()
 - $ print b.lights
-- $ This will return the list of lights available. Edit the code where necessary with the proper light names
+- $ This will return the list of lights available. Edit the code where necessary with the proper light names. You only have to do this once. 
 
 ## Set up LIFX Lights
 -Edit the code in fullmetal.py in the LIFX section near the topto work with the number of lights you have (num_lights) and find the light names using the appropriate names. 
