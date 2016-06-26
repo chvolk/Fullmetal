@@ -34,31 +34,31 @@ else:
 #FOR PHILLIPS HUE LIGHTS
 #FIRST GET THE IP OF THE BRIDGE (use $ arp -a)
 print('Finding Hue lights')
-b = Bridge('192.168.1.115')
+b = Bridge('BRIDGE IP ADDRESS')
 light_names = b.get_light_objects('name')
 
 # IF YOU WANT TO USE ACTIVITIES FROM A HARMONY HUB ENTER THE INFO HERE
-harmony_start_url = "https://home.myharmony.com/cloudapi/hub/8191553/activity/18750134/start"
-harmony_end_url = "https://home.myharmony.com/cloudapi/hub/8191553/activity/18750134/end"
+harmony_start_url = "https://home.myharmony.com/cloudapi/hub/HUB ID/activity/ACTIVITY ID/start"
+harmony_end_url = "https://home.myharmony.com/cloudapi/hub/HUB ID/activity/ACTIVITY ID/end"
 
 #PAYLOAD IS USUALLY EMPTY (LEAVE IT AS "")
 harmony_payload = ""
 
 #USE POSTMAN TO GET THIS INFO
 harmony_start_headers = {
-    'authorization': "Bearer uJ7gfqjodZfG9A-hVuposA;MeW6q7lPtKJ2VEvo1LVqgn_A01eJx4LwiUJ1gY7Qep0",
+    'authorization': "",
     'cache-control': "no-cache",
-    'postman-token': "5d8cbbee-7803-2034-f490-4cbe00a2e9f1"
+    'postman-token': ""
     }
 
 harmony_end_headers = {
-    'authorization': "Bearer uJ7gfqjodZfG9A-hVuposA;MeW6q7lPtKJ2VEvo1LVqgn_A01eJx4LwiUJ1gY7Qep0",
+    'authorization': "",
     'cache-control': "no-cache",
-    'postman-token': "4bfa6299-c26c-0de8-28f1-de46b34ceb48"
+    'postman-token': ""
     }
 
 #EDIT THIS COMMAND TO CONTAIN THE MAC ADDRESS OF THE DEVICE YOU WANT TO USE TO GAUGE DISTANCE
-command = 'hcitool rssi 70:3E:AC:16:97:98'
+command = 'hcitool rssi DEVICE MAC ADDRESS'
 
 
 
@@ -69,6 +69,7 @@ def on_switch(switch):
 
 env = Environment(on_switch)
 env.start()
+#Edit with appopriate names
 aircon = env.get_switch('Air Conditioner')
 fan = env.get_switch('Fan')
 
