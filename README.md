@@ -81,7 +81,7 @@ This program is called Fullmetal because it allows you to control your connected
 - $ b = Bridge('IP-ADDRESS-OF-YOUR-BRIDGE')
 - $ b.connect()
 - $ print b.lights
-- $ This will return the list of lights available. Edit the code where necessary with the proper light names. You only have to do this once. 
+- This will return the list of lights available. Edit the code where necessary with the proper light names. You only have to do this once. 
 
 ## Set up LIFX Lights
 - Edit the code in fullmetal.py in the LIFX section near the top to work with the number of lights you have (num_lights) and find the light names and then assign lights to values using the appropriate names. 
