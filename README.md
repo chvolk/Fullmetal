@@ -101,7 +101,7 @@ This program is called Fullmetal because it allows you to control your connected
 - $ sudo rfcomm connect /dev/rfcomm0 DEVICE-MAC-ADDRESS-HERE 1 &
 - $ hcitool rsii DEVICE-MAC-ADDRESS-HERE (to test if it all works. should return something like "RSSI return value: -1")
 - You should only have to do this process once. After you do this, you can connect to the Pi3 from your phone (or whatever device) the way you would normally connect to any other bluetooth device. Kepp in mind that you have to connect the device every time you restart the Pi or have been disconnected from it before you run the code.
-- Keep in mind that the bluetooth range of the Myo is limited to about 20-30 ft (depending on interference), so you can use this code to differentiate between being in one of two rooms (also due to limitations regarding the use of bluetooth RSSI signal strength as a gauge of distance). 
+- Keep in mind that the bluetooth range of the Myo is limited to about 20-30 ft (depending on interference), so you can use this code to differentiate between being in one of two rooms (ex. Living Room vs Bedrrom). This is also due to limitations regarding the use of bluetooth RSSI signal strength as a gauge of distance. 
 
 ## Steps:
 
@@ -109,7 +109,7 @@ This program is called Fullmetal because it allows you to control your connected
 - Add Fullmetal (or your edited version of it) to the "sample" folder in Myo4Linux (or port the files from Myo4Linux to wherever you want and run the code from there)
 - Edit the code to use the proper RSSI values (bluetooth signal strength) for the area you'll be using it in. 
 - Edit the code to properly name and find all of your lights and devices and whatnot.
-- You need to pair with your bluetooth device BEFORE you run the code
+- You need to pair with your bluetooth device before you run the code to sense distance. 
 - python fullmetal.py
 
 
