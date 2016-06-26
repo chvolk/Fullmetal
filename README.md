@@ -4,12 +4,15 @@ Home Automation using A Raspberry Pi3, Logitech Harmony, Phillips Hue lights, LI
 
 Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux), which is the foundation of this project.
 
+Tested and working on Raspberry Pi 3
+
 ## Pre-requirements for your Myo device
 - Firmware version 1.3.1448 or higher
 - It is necessary to calibrate your Myo device
 - Use the Myo dongle bluetooth
 
 ## Requirements
+- a Raspberry Pi 3
 - python >=2.6
 - pySerial
 - enum34
