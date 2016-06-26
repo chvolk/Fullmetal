@@ -45,7 +45,7 @@ Tested and working on Raspberry Pi 3
 - $ sudo pip install ouimeaux
 - $ sudo pip install requests
 
-## Find WeMo Devices
+## Set up WeMo Devices
 
 - $ python
 - $ import ouimeaux
