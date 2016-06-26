@@ -6,7 +6,7 @@ Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux)
 
 Tested and working on Raspberry Pi 3
 
-This program is called Fullmetal because it allows you to control your connected devices using a "Wave Out" gesture, which can be executed by simply waving out, or by doing [this gesture](http://i.imgur.com/dEYs0ik.gif) from Fullmetal Alchemist
+This program is called Fullmetal because it allows you to control your connected devices using a "Wave Out" gesture, which can be executed by simply waving out, or by doing [this clap gesture](http://i.imgur.com/dEYs0ik.gif) from Fullmetal Alchemist
 
 
 ## Pre-requirements for your Myo device
