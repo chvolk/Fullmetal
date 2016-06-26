@@ -66,7 +66,7 @@ Tested and working on Raspberry Pi 3
 - $ This will return the list of lights available. Edit the code where necessary with the proper light names. You only have to do this once. 
 
 ## Set up LIFX Lights
--Edit the code in fullmetal.py in the LIFX section near the topto work with the number of lights you have (num_lights) and find the light names using the appropriate names. 
+-Edit the code in fullmetal.py in the LIFX section near the top to work with the number of lights you have (num_lights) and find the light names using the appropriate names. 
 
 ## Set Up Logitech Harmony
 - Edit the code in the Harmony section near the top to contain the appropriate info for the API calls to start/stop your activity. You can get this info using the Postman app for Chrome (recommended by the Logitech Harmony team)
