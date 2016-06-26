@@ -23,7 +23,7 @@ num_lights = 2
 lifx = LifxLAN(num_lights)
 devices = lifx.get_lights()
 
-#USE THE INFO RETURNED FROM THE DEVICES TO PROPERLY NAME THE LIGHTS (EX. 'Bedroom light'))
+#USE THE INFO RETURNED FROM THE DEVICES TO PROPERLY NAME THE LIGHTS (EX. 'Bedroom light')
 if 'Bedroom' in str(devices[1]):
     bedside_table_light = devices[0]
     bedroom_light = devices[1]
@@ -70,6 +70,7 @@ print('Finding WeMo devices')
 def on_switch(switch): 
     print "Switch found!", switch.name
 
+#USE INFO RETURNED FROM ENV TO PROPERLY NAME YOUR DEVICES (EX. 'Air Conditioner')
 env = Environment(on_switch)
 env.start()
 aircon = env.get_switch('Air Conditioner')
