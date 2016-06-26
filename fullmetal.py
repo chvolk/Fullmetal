@@ -17,11 +17,13 @@ import datetime
 
 print('Getting light info')
 
-#FOR LIFX LIGHTS
+#LIFX LIGHTS SECTIOM
 print("Finding LIFX lights")
 num_lights = 2
 lifx = LifxLAN(num_lights)
 devices = lifx.get_lights()
+
+#USE THE INFO RETURNED FROM THE DEVICES TO PROPERLY NAME THE LIGHTS (EX. 'Bedroom light'))
 if 'Bedroom' in str(devices[1]):
     bedside_table_light = devices[0]
     bedroom_light = devices[1]
@@ -31,15 +33,16 @@ else:
     bedroom_light = devices[0]
 
 
-#FOR PHILLIPS HUE LIGHTS
-#FIRST GET THE IP OF THE BRIDGE (use $ arp -a)
+#PHILLIPS HUE LIGHTS SECTION
+#FIRST GET THE IP OF THE BRIDGE (use $ nmap -sL 192.168.1.1/24)
 print('Finding Hue lights')
-b = Bridge('BRIDGE IP ADDRESS')
+b = Bridge('BRIDGE_IP')
 light_names = b.get_light_objects('name')
 
+#LOGITECH HARMONY SECTION
 # IF YOU WANT TO USE ACTIVITIES FROM A HARMONY HUB ENTER THE INFO HERE
-harmony_start_url = "https://home.myharmony.com/cloudapi/hub/HUB ID/activity/ACTIVITY ID/start"
-harmony_end_url = "https://home.myharmony.com/cloudapi/hub/HUB ID/activity/ACTIVITY ID/end"
+harmony_start_url = "https://home.myharmony.com/cloudapi/hub/HUB_ID/activity/ACTIVITY_ID/start"
+harmony_end_url = "https://home.myharmony.com/cloudapi/hub/HUB_ID/activity/ACTIVITY_ID/end"
 
 #PAYLOAD IS USUALLY EMPTY (LEAVE IT AS "")
 harmony_payload = ""
@@ -58,10 +61,10 @@ harmony_end_headers = {
     }
 
 #EDIT THIS COMMAND TO CONTAIN THE MAC ADDRESS OF THE DEVICE YOU WANT TO USE TO GAUGE DISTANCE
-command = 'hcitool rssi DEVICE MAC ADDRESS'
+command = 'hcitool rssi DEVICE_MAC_ADDRESS'
 
 
-
+#WEMO SECTION
 #Find and connect to WeMo Devices.
 print('Finding WeMo devices')
 def on_switch(switch): 
@@ -69,7 +72,6 @@ def on_switch(switch):
 
 env = Environment(on_switch)
 env.start()
-#Edit with appopriate names
 aircon = env.get_switch('Air Conditioner')
 fan = env.get_switch('Fan')
 
@@ -83,6 +85,7 @@ idle_loop_check = None
 
 #Start up Myo
 print('Starting Fullmetal')
+print('Keep your arm in REST position. Wait to sync until connect is complete')
 
 fullmetal = Myo()
 fullmetal.connect()
@@ -134,7 +137,7 @@ class PrintPoseListener(DeviceListener):
                 else:
                     self.current_room = 'BED'
                 
-                #If in bedroom and want to turn on the lights or projector
+                #Unlock lights and devices in bedroom
                 if self.active_pose == 'WAVE_OUT' and bedroom_locked is True and self.current_room == 'BED':
                         bedroom_locked = False
                         fullmetal.vibrate(VibrationType.SHORT)
@@ -144,7 +147,7 @@ class PrintPoseListener(DeviceListener):
                         print("Bedroom unlocked")
                         time.sleep(.5)
 
-                #if in living room and want to turn on the lights
+                #Unlock lights and devices in living room
                 elif self.active_pose == 'WAVE_OUT' and livingroom_locked is True and self.current_room == 'LIVING':
                         fullmetal.vibrate(VibrationType.SHORT)
                         fullmetal.vibrate(VibrationType.SHORT)
@@ -153,26 +156,26 @@ class PrintPoseListener(DeviceListener):
                         time.sleep(.5)
 
                 #Unlock WeMo devices
-                if self.active_pose == 'DOUBLE_TAP' and harmony_lock is True and self.current_room == 'BED':
+                elif self.active_pose == 'DOUBLE_TAP' and harmony_lock is True and self.current_room == 'BED':
                         wemo_lock = False
                         fullmetal.vibrate(VibrationType.SHORT)
                         print("WeMo Unlocked")
 
                 #Turn on WeMo Device
-                if self.active_pose == 'FINGERS_SPREAD' and wemo_lock is False and self.current_room == 'BED':
+                elif self.active_pose == 'FINGERS_SPREAD' and wemo_lock is False and self.current_room == 'BED':
                         aircon.on()
                         wemo_lock = True
                         fullmetal.vibrate(VibrationType.SHORT)
                         print('Air conditioner on')
 
                 #Turn off WeMo device
-                if self.active_pose == 'FIST' and wemo_lock is False and self.current_room == 'BED':
+                elif self.active_pose == 'FIST' and wemo_lock is False and self.current_room == 'BED':
                         aircon.off()
                         wemo_lock = True
                         fullmetal.vibrate(VibrationType.SHORT)
                         print('Air conditioner off')
 
-                #if in bedroom and want to turn on/off the projector 
+                #Unlock (or lock) Harmony hub bedroom
                 elif self.active_pose == 'DOUBLE_TAP' and bedroom_locked is False and self.current_room == 'BED':
                         if harmony_lock is True:
                             harmony_lock = False
@@ -184,7 +187,7 @@ class PrintPoseListener(DeviceListener):
                             fullmetal.vibrate(VibrationType.SHORT)
                         print("Harmony lock is {}".format(harmony_status))
 
-                #Turn on the lights in bedroom
+                #Turn on the LIFX lights in bedroom
                 elif self.active_pose == 'FINGERS_SPREAD' and bedroom_locked is False and harmony_lock is True and self.current_room == 'BED':
                         fullmetal.vibrate(VibrationType.SHORT)
                         lifx.set_power_all_lights(True)
@@ -194,7 +197,7 @@ class PrintPoseListener(DeviceListener):
                         #myo.vibrate(VibrationType.SHORT)
                         print("Bedroom lights on")
 
-                #Turn on the living room lights
+                #Turn on the Hue lights in the living room
                 elif self.active_pose == 'FINGERS_SPREAD' and livingroom_locked is False and harmony_lock is True and self.current_room == 'LIVING':
                         fullmetal.vibrate(VibrationType.SHORT)
                         light_names['Living room light'].on = True
@@ -206,7 +209,7 @@ class PrintPoseListener(DeviceListener):
                         #myo.vibrate(VibrationType.SHORT)
                         print("Living room lights on")
 
-                #Turn on the projector
+                #Start Harmony activity in bedroom
                 elif self.active_pose == 'FINGERS_SPREAD' and bedroom_locked is False and harmony_lock is False and self.current_room == 'BED':
                         # response = harmony_switch('ON')
                         harmony_lock = True
@@ -214,14 +217,14 @@ class PrintPoseListener(DeviceListener):
                         fullmetal.vibrate(VibrationType.SHORT)
                         print("Projector on")
 
-                #Turn off the bedroom lights
+                #Turn off the LIFX lights in the bedroom
                 elif self.active_pose == 'FIST' and bedroom_locked is False and harmony_lock is True  and self.current_room == 'BED':
                         fullmetal.vibrate(VibrationType.SHORT)
                         lifx.set_power_all_lights(False)
                         bedroom_locked = True
                         print("Bedroom lights off")
 
-                #Turn off the living room lights        
+                #Turn off the Hue lights in theliving room      
                 elif self.active_pose == 'FIST' and livingroom_locked is False and harmony_lock is True and self.current_room == 'LIVING':
                         fullmetal.vibrate(VibrationType.SHORT)
                         light_names['Living room light'].on = False
@@ -232,7 +235,7 @@ class PrintPoseListener(DeviceListener):
                         livingroom_locked = True
                         print("Living room lights off")
 
-                #Turn off the projector
+                #End Harmony activity in bedroom
                 elif self.active_pose == 'FIST' and bedroom_locked is False and harmony_lock is False and self.current_room == 'BED':
                         # response = harmony_switch('OFF')
                         harmony_lock = True
@@ -299,6 +302,7 @@ def check_for_idle():
             print(e)
             pass
 
+#Turns predefined harmony activity on or off
 def harmony_switch(status):
     if status == 'ON':
         response = requests.post(harmony_start_url, data=harmony_payload, headers=harmony_start_headers)
@@ -306,6 +310,7 @@ def harmony_switch(status):
         response = requests.post(harmony_end_url, data=harmony_payload, headers=harmony_end_headers)
     return response
 
+#Adds the custom pose listener class to the Myo
 def add_listener(myo):
     listener = PrintPoseListener()
     fullmetal.add_listener(listener)
@@ -335,9 +340,10 @@ if __name__ == '__main__':
         output = str(process.communicate()[0])
         if 'RSSI' not in output:
             raise Exception('No Bluetooth Device Connected to use for distance gauge')
-        start()
+        else:
+            start()
     except KeyboardInterrupt:
-        print('Keyboard Interrupt')
+        print('Keyboard Interrupt. Please wait for program to exit')
         idle_loop_check = False
         time.sleep(2)
         sys.exit(0)
