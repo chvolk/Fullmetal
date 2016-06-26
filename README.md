@@ -32,10 +32,10 @@ Tested and working on Raspberry Pi 3
 - $ sudo apt-get upgrade -y
 - $ sudo apt-get dist-upgrade -y
 - $ sudo rpi-update
-- $ git clone https://github.com/Ramir0/Myo4Linux.git
 - $ sudo apt-get install pi-bluetooth
 - $ sudo apt-get install bluez bluez-firmware
 - $ sudo apt-get install blueman
+- $ git clone https://github.com/Ramir0/Myo4Linux.git
 - $ sudo apt-get install pip (if not done already)
 - $ sudo pip install -U pip
 - $ sudo pip install pySerial
