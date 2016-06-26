@@ -25,12 +25,15 @@ This program is called Fullmetal because it allows you to control your connected
 - bluez
 - pi-bluetooth
 - hcitool
+- nmap
 - requests
 - ouimeaux
 
+
+
 ## Install
 
-- Open the terminal
+- Open the terminal (or using ssh to your Pi. See how to do this below if you need to)
 - $ sudo apt-get update
 - $ sudo apt-get upgrade -y
 - $ sudo apt-get dist-upgrade -y
@@ -38,6 +41,7 @@ This program is called Fullmetal because it allows you to control your connected
 - $ sudo apt-get install pi-bluetooth
 - $ sudo apt-get install bluez bluez-firmware
 - $ sudo apt-get install blueman
+- $ sudo apt-get install nmap
 - $ git clone https://github.com/Ramir0/Myo4Linux.git
 - $ sudo apt-get install pip (if not done already)
 - $ sudo pip install -U pip
@@ -47,6 +51,14 @@ This program is called Fullmetal because it allows you to control your connected
 - $ sudo pip install lifxlan
 - $ sudo pip install ouimeaux
 - $ sudo pip install requests
+
+## SSH into Raspberry Pi
+- nmap -sL 192.168.1.1
+- Wait a while for nmap to run. Once it returns a list of IPs find the line that reads "Nmap scan report for raspberrypi (IP-ADDRESS)". Copy the ip adress. 
+- Open the terminal
+- $ ssh i IP-ADDRESS-OF-PI
+- Enter the password of your raspberry pi
+
 
 ## Set up WeMo Devices
 
@@ -60,10 +72,13 @@ This program is called Fullmetal because it allows you to control your connected
 - This will list the devices. Use the device names listed and add those to the code in the wemo setup section. Edit the code in the Wemo section near the top to have the appropriate device names. You only have to do this once.
 
 ## Set up Hue Bridge
+
+- $ nmap -sL 192.168.1.1/24
+- Wait a while for nmap to run. Once it returns a list of IPs find the line that reads "Nmap scan report for Philips-hue (IP-ADRESS)". Copy the ip adress. 
 - $ python
 - $ from phue import Bridge
 - Press the connect button on the Hue bridge
-- $ b = Bridge('ip_of_your_bridge')
+- $ b = Bridge('IP-ADDRESS-OF-YOUR-BRIDGE')
 - $ b.connect()
 - $ print b.lights
 - $ This will return the list of lights available. Edit the code where necessary with the proper light names. You only have to do this once. 
