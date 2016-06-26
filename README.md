@@ -6,7 +6,7 @@ Thanks to Ramir0 and his project Myo4Linux (https://github.com/Ramir0/Myo4Linux)
 
 Tested and working on Raspberry Pi 3
 
-This program is called Fullmetal because it allows you to control your connected devices using a "Wave Out" gesture, which can be executed by simply waving out, or by doing [this clap gesture](http://i.imgur.com/dEYs0ik.gif) from Fullmetal Alchemist
+This program is called Fullmetal because it allows you to control your connected devices using a "Wave Out" gesture, which can be executed by simply waving out, or by doing [this clap gesture](http://i.imgur.com/dEYs0ik.gif) from Fullmetal Alchemist :)
 
 
 ## Pre-requirements for your Myo device
@@ -86,6 +86,7 @@ This program is called Fullmetal because it allows you to control your connected
 - $ sudo rfcomm connect /dev/rfcomm0 DEVICE-MAC-ADDRESS-HERE 1 &
 - $ hcitool rsii DEVICE-MAC-ADDRESS-HERE (to test if it all works. should return something like "RSSI return value: -1")
 - You should only have to do this process once. After you do this, you can connect to the Pi3 from your phone (or whatever device) the way you would normally connect to any other bluetooth device. Kepp in mind that you have to connect the device every time you restart the Pi or have been disconnected from it before you run the code.
+- Keep in mind that the bluetooth range of the Myo is limited to about 20-30 ft (depending on interference), so you can use this code to differentiate between being in one of two rooms (also due to limitations regarding the use of bluetooth RSSI signal strength as a gauge of distance). 
 
 ## Steps:
 
