@@ -53,7 +53,7 @@ This program is called Fullmetal because it allows you to control your connected
 - $ sudo pip install requests
 
 ## SSH into Raspberry Pi
-- nmap -sL 192.168.1.1/24
+- $ nmap -sL 192.168.1.1/24
 - Wait a while for nmap to run. Once it returns a list of IPs find the line that reads "Nmap scan report for raspberrypi (IP-ADDRESS)". Copy the ip adress. 
 - Open the terminal
 - $ ssh i IP-ADDRESS-OF-PI
