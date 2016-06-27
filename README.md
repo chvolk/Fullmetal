@@ -43,7 +43,7 @@ This program is called Fullmetal because it allows you to control your connected
 - $ sudo apt-get install blueman
 - $ sudo apt-get install nmap
 - $ git clone https://github.com/Ramir0/Myo4Linux.git
-- $ sudo apt-get install pip (if not done already)
+- $ sudo apt-get install python-pip (if not done already)
 - $ sudo pip install -U pip
 - $ sudo pip install pySerial
 - $ sudo pip install enum34
