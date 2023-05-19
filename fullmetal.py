@@ -1,6 +1,5 @@
 import sys
 sys.path.append('../lib/')
-
 import threading
 import subprocess
 from vibration_type import VibrationType
